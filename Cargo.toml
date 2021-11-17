@@ -1,0 +1,11 @@
+[package]
+name = "csp-jplag"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+anyhow = "1.0.45"
+clap = "3.0.0-beta.5"
+log = "0.4.14"
+pretty_env_logger = "0.4.0"
