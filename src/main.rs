@@ -2,7 +2,6 @@ use anyhow::Result;
 use clap::Parser;
 use log::*;
 use std::fs;
-use std::os::unix::prelude::OsStrExt;
 use std::path::{Path, PathBuf};
 
 mod opt;
@@ -59,18 +58,19 @@ fn main() -> Result<()> {
                     }
                     for e3 in fs::read_dir(e2.path())? {
                         let e3 = e3?;
-                        debug!("Found contestant file {:?}", e3.path());
+                        let path = e3.path();
+                        debug!("Found contestant file {:?}", path);
+                        let ext = path.extension().unwrap_or(std::ffi::OsStr::new(""));
                         if e3.file_type()?.is_file()
-                            && (e3.path().extension().unwrap() == "c"
-                                || e3.path().extension().unwrap() == "cpp")
-                            && e3.path().file_stem().unwrap().as_bytes() == p.as_bytes()
+                            && (ext == "c" || ext == "cpp")
+                            && path.file_stem().unwrap() == p.as_str()
                         {
                             fs::copy(
-                                e3.path(),
+                                &path,
                                 opts.temp_dir
                                     .join(p)
                                     .join(e.file_name())
-                                    .with_extension(e3.path().extension().unwrap()),
+                                    .with_extension(ext),
                             )?;
                         }
                     }
