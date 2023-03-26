@@ -16,4 +16,6 @@ pub struct Opts {
     pub temp_dir: PathBuf,
     #[clap(short, long, default_values = &[], multiple_occurrences = true)]
     pub problems: Vec<String>,
+    #[clap(short, long)]
+    pub no_copy: bool,
 }

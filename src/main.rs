@@ -39,6 +39,17 @@ fn main() -> Result<()> {
         warn!("clear temporary directory {:?}", &opts.temp_dir);
         fs::remove_dir_all(&opts.temp_dir)?;
     }
+    if fs::read_dir(&opts.result_dir).map(|_| true).or_else(|e| {
+        if e.kind() == std::io::ErrorKind::NotFound {
+            Ok(false)
+        } else {
+            Err(e)
+        }
+    })? == true
+    {
+        warn!("clear result directory {:?}", &opts.result_dir);
+        fs::remove_dir_all(&opts.result_dir)?;
+    }
 
     info!("processing inputs from {:?}", &opts.source_dir);
     for p in opts.problems.iter() {

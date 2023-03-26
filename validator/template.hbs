@@ -1,0 +1,20 @@
+{{#each results}}{{#unless ok}}
+{{path}}: FAILED<br>
+
+<details>
+    <summary>Source Code</summary>
+    <pre><code>
+{{source}}
+    </code></pre>
+</details>
+
+<details>
+    <summary>Compile Log</summary>
+    <pre><code>
+Process exited with {{code}}
+{{message}}
+    </code></pre>
+</details>
+
+{{/unless}}<br>
+{{/each}}
